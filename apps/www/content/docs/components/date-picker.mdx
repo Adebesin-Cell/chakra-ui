@@ -1,0 +1,182 @@
+---
+title: Date Picker
+description:
+  Used to select a date from a calendar with features like keyboard navigation,
+  month/year selection, and date range support.
+links:
+  source: components/date-picker
+  storybook: components-date-picker--basic
+  recipe: date-picker
+  ark: https://ark-ui.com/docs/components/date-picker
+---
+
+<ExampleTabs name="date-picker-basic" />
+
+## Usage
+
+```jsx
+import { DatePicker } from "@chakra-ui/react"
+```
+
+```jsx
+<DatePicker.Root>
+  <DatePicker.Label />
+  <DatePicker.Control>
+    <DatePicker.Input />
+    <DatePicker.Trigger />
+  </DatePicker.Control>
+  <DatePicker.Positioner>
+    <DatePicker.Content>
+      <DatePicker.View view="day">
+        <DatePicker.ViewControl>
+          <DatePicker.PrevTrigger />
+          <DatePicker.ViewTrigger>
+            <DatePicker.RangeText />
+          </DatePicker.ViewTrigger>
+          <DatePicker.NextTrigger />
+        </DatePicker.ViewControl>
+        <DatePicker.Table>
+          <DatePicker.TableHead>
+            <DatePicker.TableRow>
+              <DatePicker.TableHeader />
+            </DatePicker.TableRow>
+          </DatePicker.TableHead>
+          <DatePicker.TableBody>
+            <DatePicker.TableRow>
+              <DatePicker.TableCell>
+                <DatePicker.TableCellTrigger />
+              </DatePicker.TableCell>
+            </DatePicker.TableRow>
+          </DatePicker.TableBody>
+        </DatePicker.Table>
+      </DatePicker.View>
+    </DatePicker.Content>
+  </DatePicker.Positioner>
+</DatePicker.Root>
+```
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to adjust the size of the date picker input.
+
+<ExampleTabs name="date-picker-with-sizes" />
+
+### Controlled
+
+Use the `value` and `onValueChange` props to programmatically control the
+selected date.
+
+<ExampleTabs name="date-picker-controlled" />
+
+### Date Range
+
+Use the date picker to select a range of dates by setting the `selectionMode`
+prop to `range`.
+
+<ExampleTabs name="date-picker-range" />
+
+### Disabled Dates
+
+Pass the `isDateDisabled` prop to disable specific dates from selection.
+
+<ExampleTabs name="date-picker-disabled-dates" />
+
+### Min and Max Date
+
+Use the `min` and `max` props to restrict the selectable date range.
+
+<ExampleTabs name="date-picker-min-max" />
+
+### Month and Year Select
+
+Use the month and year select dropdowns for faster navigation through the
+calendar.
+
+<ExampleTabs name="date-picker-with-select" />
+
+### Field
+
+Here's an example that composes the `DatePicker.Root` with the `Field` component
+to add labels, helper text, and error messages.
+
+<ExampleTabs name="date-picker-with-field" />
+
+### Format
+
+Use the `format` prop to customize how the selected date is displayed in the
+input field.
+
+<ExampleTabs name="date-picker-with-format" />
+
+### Locale
+
+Pass the `locale` prop to display the calendar in different languages and
+locales.
+
+<ExampleTabs name="date-picker-with-locale" />
+
+### Disabled
+
+Use the `disabled` prop to disable the date picker to prevent user interaction.
+
+<ExampleTabs name="date-picker-disabled" />
+
+### Read Only
+
+Use the `readOnly` prop to make the date picker read-only. The input can be
+focused but the calendar cannot be opened.
+
+<ExampleTabs name="date-picker-read-only" />
+
+### Invalid
+
+Pass the `invalid` prop to the `DatePicker.Root` component to display the date
+picker in an invalid state with error messages.
+
+<ExampleTabs name="date-picker-invalid" />
+
+### Form
+
+Here's an example that composes the `DatePicker.Root` with a `form` to collect
+structured data and handle submissions.
+
+<ExampleTabs name="date-picker-with-form" />
+
+### Preset Dates
+
+Use preset triggers to allow users to quickly select common date ranges like
+"Today", "Yesterday", or "Last 7 days".
+
+<ExampleTabs name="date-picker-with-presets" />
+
+## Props
+
+### Root
+
+<PropTable component="DatePicker" part="Root" />
+
+### Control
+
+<PropTable component="DatePicker" part="Control" />
+
+### Input
+
+<PropTable component="DatePicker" part="Input" />
+
+### Trigger
+
+<PropTable component="DatePicker" part="Trigger" />
+
+### Content
+
+<PropTable component="DatePicker" part="Content" />
+
+### View
+
+<PropTable component="DatePicker" part="View" />
+
+### TableCellTrigger
+
+<PropTable component="DatePicker" part="TableCellTrigger" />
