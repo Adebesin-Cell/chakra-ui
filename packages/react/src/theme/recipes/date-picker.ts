@@ -205,9 +205,6 @@ export const datePickerSlotRecipe = defineSlotRecipe({
         opacity: "0.4",
         cursor: "not-allowed",
       },
-      _outside: {
-        color: "fg.muted",
-      },
     },
 
     monthSelect: {
