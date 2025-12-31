@@ -1,0 +1,335 @@
+---
+title: Rich Text Editor
+description:
+  Compose Tiptap with Chakra UI to build rich text experiences with a toolbar,
+  content area, and extensible controls. Includes Combobox-based suggestions for
+  slash commands and mentions with preserved editor focus.
+links:
+  source: components/rich-text-editor
+  storybook: components-rich-text-editor--basic
+  recipe: rich-text-editor
+  ark: https://tiptap.dev
+---
+
+<ExampleTabs name="rich-text-editor-basic" />
+
+## Getting Started
+
+Install the Chakra CLI and add the Rich Text Editor snippets to your project.
+Snippets generate ready-to-use compositions under `components/ui`.
+
+```bash
+npm i -D @chakra-ui/cli
+```
+
+List available rich-text-editor variants and add the ones you need:
+
+```bash
+npx @chakra-ui/cli snippet list
+npx @chakra-ui/cli snippet add rich-text-editor
+```
+
+The CLI also supports a custom output directory:
+
+```bash
+npx @chakra-ui/cli snippet add rich-text-editor --outdir ./src/components/ui
+```
+
+Wrap your app with the generated Provider (typically `components/ui/provider`),
+then import the editor composition from your components directory.
+
+## Usage
+
+```jsx
+import { Control, RichTextEditor } from "components/ui/rich-text-editor"
+```
+
+```jsx
+<RichTextEditor.Root editor={editor}>
+  <RichTextEditor.Toolbar>
+    <RichTextEditor.ControlGroup>
+      <Control.Bold />
+      <Control.Italic />
+      <Control.Strikethrough />
+      <Control.Code />
+    </RichTextEditor.ControlGroup>
+
+    <RichTextEditor.ControlGroup>
+      <Control.H1 />
+      <Control.H2 />
+      <Control.H3 />
+    </RichTextEditor.ControlGroup>
+
+    <RichTextEditor.ControlGroup>
+      <Control.BulletList />
+      <Control.OrderedList />
+      <Control.Blockquote />
+    </RichTextEditor.ControlGroup>
+
+    <RichTextEditor.ControlGroup>
+      <Control.Undo />
+      <Control.Redo />
+    </RichTextEditor.ControlGroup>
+  </RichTextEditor.Toolbar>
+
+  <RichTextEditor.Content />
+  {/* Optional sticky toolbar: <RichTextEditor.Toolbar sticky stickyOffset="64px" /> */}
+</RichTextEditor.Root>
+```
+
+## Shortcuts
+
+The `RichTextEditor` component provides convenient composition shortcuts:
+
+- `RichTextEditor.ControlGroup` groups related toolbar controls with sensible
+  spacing and separators.
+- `RichTextEditor.ButtonControl` is a base control for building custom icon
+  buttons with tooltips.
+- `Control` provides a set of prebuilt controls (Bold, Italic, H1–H4, Lists,
+  Quote, Link, Align, Undo/Redo, etc.).
+
+```jsx
+<RichTextEditor.ControlGroup>
+  <Control.Bold />
+  <Control.Italic />
+  <Control.Underline />
+</RichTextEditor.ControlGroup>
+```
+
+## Examples
+
+### Controlled
+
+Use `editable` and external state to control whether the editor is interactive.
+
+<ExampleTabs name="rich-text-editor-controlled" />
+
+### Bubble Menu
+
+Show contextual formatting options near the selection using Tiptap's BubbleMenu.
+
+<ExampleTabs name="rich-text-editor-with-bubble-menu" />
+
+### Character Count
+
+Display remaining character count with a footer indicator.
+
+<ExampleTabs name="rich-text-editor-with-character-count" />
+
+### Code
+
+Support inline and block code with styled rendering.
+
+<ExampleTabs name="rich-text-editor-with-code" />
+
+### Drag Handle
+
+Enable draggable handles to reorder blocks.
+
+<ExampleTabs name="rich-text-editor-with-drag-handle" />
+
+### Hashtags
+
+Render hashtags with custom node styles.
+
+<ExampleTabs name="rich-text-editor-with-hashtags" />
+
+### Highlight
+
+Apply multicolor highlight to text selections.
+
+<ExampleTabs name="rich-text-editor-with-highlight" />
+
+### Image
+
+Insert images via dialog or URL.
+
+<ExampleTabs name="rich-text-editor-with-image" />
+
+### Mentions
+
+Type `@` to mention users. Uses Combobox for suggestions and preserves editor
+focus.
+
+<ExampleTabs name="rich-text-editor-with-mentions" />
+
+### Mode
+
+Toggle between editing and viewing modes.
+
+<ExampleTabs name="rich-text-editor-with-mode" />
+
+### Paste Handling
+
+Sanitize and transform pasted content.
+
+<ExampleTabs name="rich-text-editor-with-paste-handling" />
+
+### Placeholder
+
+Show placeholder text when the editor is empty.
+
+<ExampleTabs name="rich-text-editor-with-placeholder" />
+
+### Preview
+
+Render a read-only preview of the content.
+
+<ExampleTabs name="rich-text-editor-with-preview" />
+
+### Slash Commands
+
+Type `/` to trigger a command list. Uses Combobox for suggestions and preserves
+editor focus.
+
+<ExampleTabs name="rich-text-editor-with-slash-commands" />
+
+### Task List
+
+Manage checklist items with indent/outdent.
+
+<ExampleTabs name="rich-text-editor-with-task" />
+
+### Autosave
+
+Automatically persist content on changes.
+
+<ExampleTabs name="rich-text-editor-with-autosave" />
+
+## Guides
+
+### Context and Structure
+
+Access the current editor via context:
+
+```tsx
+import { useRichTextEditorContext } from "@chakra-ui/react"
+
+const ToolbarExtra = () => {
+  const { editor } = useRichTextEditorContext()
+  if (!editor) return null
+  return (
+    <RichTextEditor.ButtonControl
+      icon={<Icon />}
+      label="Custom"
+      onClick={() => editor.chain().focus().toggleBold().run()}
+    />
+  )
+}
+```
+
+### Creating Controls
+
+Build custom controls using the factory helpers:
+
+```tsx
+import {
+  createBooleanControl,
+  createSelectControl,
+  createSwatchControl,
+} from "@chakra-ui/react"
+
+const Bold = createBooleanControl({
+  label: "Bold",
+  icon: IconBold,
+  command: (editor) => editor.chain().focus().toggleBold().run(),
+  getVariant: (editor) => (editor.isActive("bold") ? "subtle" : "ghost"),
+})
+
+const FontSize = createSelectControl({
+  label: "Font Size",
+  options: [
+    { value: "12px", label: "12px" },
+    { value: "14px", label: "14px" },
+  ],
+  getValue: (editor) => editor.getAttributes("textStyle")?.fontSize || "14px",
+  command: (editor, value) =>
+    editor.chain().focus().setMark("textStyle", { fontSize: value }).run(),
+})
+```
+
+### Combobox for Suggestions
+
+Use Combobox to render inline suggestion lists (slash commands, mentions) while
+keeping the editor focused:
+
+```tsx
+<Combobox.Root
+  open
+  autoFocus={false}
+  collection={createListCollection({ items })}
+  positioning={{
+    strategy: "fixed",
+    placement: "bottom-start",
+    gutter: 8,
+    getAnchorRect: () => ({
+      x: rect.left,
+      y: rect.bottom,
+      width: rect.width,
+      height: 0,
+    }),
+  }}
+>
+  <Portal>
+    <Combobox.Positioner>
+      <Combobox.Content minW="280px" maxH="360px" overflowY="auto">
+        {items.map((item) => (
+          <Combobox.Item
+            key={item.value}
+            item={item}
+            onPointerDown={(e) => {
+              e.preventDefault()
+              command(item)
+            }}
+            cursor="button"
+          >
+            {item.label}
+          </Combobox.Item>
+        ))}
+      </Combobox.Content>
+    </Combobox.Positioner>
+  </Portal>
+</Combobox.Root>
+```
+
+- Do not render `Combobox.Trigger` or `Combobox.Input` to avoid stealing focus.
+- Set `autoFocus={false}` so Combobox won’t focus on mount.
+- Use `onPointerDown` with `preventDefault()` to prevent blur before command
+  execution.
+- Keyboard navigation (ArrowUp/Down, Enter, Escape) remains handled by the
+  Tiptap Suggestion plugin.
+
+### Links and Images
+
+Compose dialogs and popovers for inserting links and images. Use
+`extendMarkRange("link")`, sanitize URLs, and offer UI to toggle
+`target="_blank"` for external links.
+
+## Props
+
+### Root
+
+<PropTable component="RichTextEditor" part="Root" />
+
+### Toolbar
+
+<PropTable component="RichTextEditor" part="Toolbar" />
+
+### Content
+
+<PropTable component="RichTextEditor" part="Content" />
+
+### ControlGroup
+
+<PropTable component="RichTextEditor" part="ControlGroup" />
+
+### ButtonControl
+
+<PropTable component="RichTextEditor" part="ButtonControl" />
+
+## Explorer
+
+Explore the `RichTextEditor` component parts interactively. Click on parts in
+the sidebar to highlight them in the preview.
+
+<Explorer name="rich-text-editor-explorer-demo" />
