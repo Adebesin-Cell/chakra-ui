@@ -1,13 +1,12 @@
 "use client"
 
-import type { BoxProps, StackProps } from "@chakra-ui/react"
+import type { BoxProps, StackProps, SystemStyleObject } from "@chakra-ui/react"
 import { Box, HStack, StackSeparator, defineStyle } from "@chakra-ui/react"
 import { Editor, EditorContent } from "@tiptap/react"
 import {
-  RichTextEditorButtonControl,
   RichTextEditorContext,
   useRichTextEditorContext,
-} from "compositions/ui/rich-text-editor-core"
+} from "compositions/ui/rich-text-editor-context"
 import * as React from "react"
 
 const proseMirrorBaseCss = defineStyle({
@@ -38,17 +37,17 @@ const proseMirrorBaseCss = defineStyle({
       lineHeight: "1.2em",
     },
     "& h2": {
-      fontSize: "1.4em",
+      fontSize: "1.65em",
       letterSpacing: "-0.02em",
-      lineHeight: "1.4em",
+      lineHeight: "1.3em",
     },
     "& h3": {
-      fontSize: "1.285em",
+      fontSize: "1.35em",
       letterSpacing: "-0.01em",
-      lineHeight: "1.5em",
+      lineHeight: "1.4em",
     },
     "& h4": {
-      fontSize: "1.14em",
+      fontSize: "1.15em",
       letterSpacing: "-0.01em",
       lineHeight: "1.5em",
     },
@@ -58,7 +57,7 @@ const proseMirrorBaseCss = defineStyle({
       lineHeight: "1.5em",
     },
     "& h6": {
-      fontSize: "0.85em",
+      fontSize: "0.875em",
       letterSpacing: "-0.01em",
       lineHeight: "1.5em",
     },
@@ -99,11 +98,11 @@ const proseMirrorBaseCss = defineStyle({
       paddingStart: "4",
     },
     "& ul:not([data-type='taskList'])": {
-      paddingInlineStart: "1rem",
+      paddingInlineStart: "1.25rem",
       listStyleType: "disc",
     },
     "& ol:not([data-type='taskList'])": {
-      paddingInlineStart: "1rem",
+      paddingInlineStart: "1.25rem",
       listStyleType: "decimal",
     },
     "& ul ul": {
@@ -174,39 +173,59 @@ export const RichTextEditorRoot = React.forwardRef<
   )
 })
 
+type RichTextEditorToolbarVariant = "sticky" | "floating" | "fixed"
+
 export interface RichTextEditorToolbarProps extends StackProps {
-  sticky?: boolean
+  variant?: RichTextEditorToolbarVariant
   stickyOffset?: string
+}
+
+const toolbarStylesMap: Record<
+  RichTextEditorToolbarVariant,
+  SystemStyleObject
+> = {
+  sticky: {
+    bg: "bg",
+    position: "sticky",
+    top: "var(--sticky-offset, 0px)",
+    zIndex: "1",
+    py: "1.5",
+    px: "3",
+  },
+  fixed: {
+    bg: "bg",
+    roundedTop: "l2",
+    borderBottomWidth: "1px",
+    py: "1.5",
+    px: "3",
+  },
+  floating: {
+    shadow: "md",
+    roundedTop: "l2",
+    bg: "bg.panel",
+    px: "1.5",
+    py: "1.5",
+  },
 }
 
 export const RichTextEditorToolbar = React.forwardRef<
   HTMLDivElement,
   RichTextEditorToolbarProps
 >(function RichTextEditorToolbar(props, ref) {
-  const { sticky, stickyOffset = "0px", ...rest } = props
+  const { variant = "fixed", stickyOffset = "0px", ...rest } = props
+  const variantStyles = toolbarStylesMap[variant]
+
   return (
     <HStack
       ref={ref}
-      py="1.5"
-      px="3"
-      roundedTop="l2"
-      borderBottomWidth="1px"
-      bg="bg"
       flexWrap="wrap"
-      data-sticky={sticky || undefined}
       separator={<StackSeparator h="5" alignSelf="center" />}
       {...rest}
       style={{
         ["--sticky-offset" as string]: stickyOffset,
         ...rest.style,
       }}
-      css={{
-        "&[data-sticky]": {
-          position: "sticky",
-          top: "var(--sticky-offset, 0px)",
-          zIndex: "1",
-        },
-      }}
+      css={[variantStyles, rest.css]}
     />
   )
 })
@@ -215,7 +234,7 @@ export const RichTextEditorFooter = React.forwardRef<
   HTMLDivElement,
   StackProps
 >(function RichTextEditorFooter(props, ref) {
-  return <HStack ref={ref} gap="1" {...props} />
+  return <HStack ref={ref} gap="1" borderTopWidth="1px" p="3" {...props} />
 })
 
 export interface RichTextEditorContentProps
@@ -244,13 +263,15 @@ export const RichTextEditor = {
   Toolbar: RichTextEditorToolbar,
   Content: RichTextEditorContent,
   ControlGroup: RichTextEditorControlGroup,
-  ButtonControl: RichTextEditorButtonControl,
   Footer: RichTextEditorFooter,
 } as const
 
-export {
-  useRichTextEditorContext,
-  RichTextEditorContext,
-} from "compositions/ui/rich-text-editor-core"
-
 export * as Control from "compositions/ui/rich-text-editor-control"
+
+export {
+  createBooleanControl,
+  createSelectControl,
+  createSwatchControl,
+} from "compositions/ui/rich-text-editor-control"
+
+export { useRichTextEditorContext } from "compositions/ui/rich-text-editor-context"
