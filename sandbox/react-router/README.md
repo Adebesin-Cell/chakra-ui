@@ -29,7 +29,6 @@ The Emotion cache setup consists of three main parts:
 #### 1. Emotion Cache Utilities (`app/emotion/`)
 
 - **`emotion-cache.ts`** - Creates the base Emotion cache instance
-- **`emotion-server.tsx`** - Server-side utilities (note: streaming limitations)
 - **`emotion-client.tsx`** - Client-side cache provider and style injection
   hooks
 
