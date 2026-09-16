@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react"
 import { useVirtualizer } from "@tanstack/react-virtual"
 import { useRef, useState } from "react"
+import { flushSync } from "react-dom"
 
 export const CommandPaletteVirtualized = () => {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -35,7 +36,9 @@ export const CommandPaletteVirtualized = () => {
       open={open}
       onOpenChange={(e) => setOpen(e.open)}
       scrollToIndexFn={(details) => {
-        virtualizer.scrollToIndex(details.index, { align: "auto" })
+        flushSync(() => {
+          virtualizer.scrollToIndex(details.index, { align: "auto" })
+        })
       }}
       onInputValueChange={(e) => filter(e.inputValue)}
     >

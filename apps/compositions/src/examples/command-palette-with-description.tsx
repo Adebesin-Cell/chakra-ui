@@ -41,12 +41,14 @@ export const CommandPaletteWithDescription = () => {
               {collection.items.map((item) => (
                 <CommandPalette.Item item={item} key={item.value}>
                   {item.icon}
-                  <CommandPalette.ItemText>
-                    {item.label}
-                    <Span display="block" textStyle="xs" color="fg.muted">
+                  <Span display="flex" flexDirection="column" flex="1" minW="0">
+                    <CommandPalette.ItemText>
+                      {item.label}
+                    </CommandPalette.ItemText>
+                    <Span textStyle="xs" color="fg.muted" lineClamp="1">
                       {item.description}
                     </Span>
-                  </CommandPalette.ItemText>
+                  </Span>
                 </CommandPalette.Item>
               ))}
               <CommandPalette.Empty>No results found</CommandPalette.Empty>

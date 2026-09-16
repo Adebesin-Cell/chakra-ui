@@ -3,11 +3,9 @@
 import {
   Button,
   CommandPalette,
-  Icon,
   Kbd,
   Portal,
   Span,
-  VisuallyHidden,
   createListCollection,
   useFilter,
 } from "@chakra-ui/react"
@@ -15,7 +13,6 @@ import { toaster } from "compositions/ui/toaster"
 import { useMemo, useState } from "react"
 import {
   LuArrowLeft,
-  LuDelete,
   LuMonitor,
   LuMoon,
   LuPalette,
@@ -130,12 +127,7 @@ export const CommandPaletteNested = () => {
             <CommandPalette.Footer>
               <Span>Theme: {theme}</Span>
               <Span ms="auto" display="inline-flex" alignItems="center" gap="1">
-                <Kbd>
-                  <Icon boxSize="3.5">
-                    <LuDelete />
-                  </Icon>
-                  <VisuallyHidden>Backspace</VisuallyHidden>
-                </Kbd>
+                <Kbd>delete</Kbd>
                 to go back
               </Span>
             </CommandPalette.Footer>

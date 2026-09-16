@@ -33,6 +33,4 @@ export { CommandPaletteWithEmptyState as EmptyState } from "compositions/example
 export { CommandPaletteWithFooterActions as FooterActions } from "compositions/examples/command-palette-with-footer-actions"
 export { CommandPaletteWithHighlight as Highlight } from "compositions/examples/command-palette-with-highlight"
 export { CommandPaletteWithPrefixSearch as PrefixSearch } from "compositions/examples/command-palette-with-prefix-search"
-export { CommandPaletteWithStatus as Status } from "compositions/examples/command-palette-with-status"
 export { CommandPaletteWithTabs as Tabs } from "compositions/examples/command-palette-with-tabs"
-export { CommandPaletteComposition as Composition } from "compositions/examples/command-palette-composition"

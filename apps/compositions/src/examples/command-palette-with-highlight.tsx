@@ -48,7 +48,7 @@ export const CommandPaletteWithHighlight = () => {
                   <CommandPalette.ItemText>
                     <Highlight
                       query={query}
-                      styles={{ fontWeight: "semibold", color: "fg" }}
+                      styles={{ fontWeight: "semibold", color: "teal.solid" }}
                     >
                       {item.label}
                     </Highlight>
