@@ -189,7 +189,9 @@ export const commandPaletteSlotRecipe = defineSlotRecipe({
       py: "1.5",
       px: "var(--command-palette-item-padding-x)",
       textStyle: "xs",
-      fontWeight: "medium",
+      fontWeight: "semibold",
+      letterSpacing: "wide",
+      textTransform: "uppercase",
       color: "fg.muted",
     },
 
